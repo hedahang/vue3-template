@@ -1,10 +1,10 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="@/assets/logo.png" />
+    <img alt="Vue logo" src="@/assets/images/logo.png" />
     <HelloWorld msg="Welcome to Your Vue.js App" />
     <div class="name">c</div>
     <svg-icon icon-class="config"></svg-icon>
-    <div>
+    <!-- <div>
       <a-button type="primary"> Primary </a-button>
       <a-button>Default</a-button>
       <a-button type="dashed"> Dashed </a-button>
@@ -14,7 +14,7 @@
       </a-config-provider>
       <a-button type="primary"> 按钮 </a-button>
       <a-button type="link"> Link </a-button>
-    </div>
+    </div> -->
   </div>
 </template>
 

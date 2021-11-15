@@ -9,6 +9,7 @@ import router from "./router";
 import store from "./store";
 
 import "./assets/icons"; // icon
+import "./permission"; // permission control
 
 import SvgIcon from "@/components/SvgIcon"; // svg components
 

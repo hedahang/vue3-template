@@ -17,7 +17,7 @@ export function login(username, password, code, uuid) {
 
 // 获取用户详细信息
 export function getInfo() {
-  return request.get("/ctid/user/userInfo");
+  return request.get("/getInfo");
 }
 
 // 退出方法

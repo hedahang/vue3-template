@@ -1,16 +1,29 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
-const routes = [
+/**
+ * @description: default layout
+ */
+const LAYOUT = () => import("@/layout");
+
+// 公共路由
+export const constantRoutes = [
+  // {
+  //   path: "/",
+  //   name: "Root",
+  //   redirect: "/home",
+  // },
   {
     path: "/",
-    name: "Root",
-    redirect: "/home",
-  },
-  {
-    path: "/home",
-    component: import("@/views/home/index.vue"),
-    name: "Home",
-    meta: { title: "首页", icon: "dashboard", noCache: true, affix: true },
+    component: LAYOUT,
+    redirect: "home",
+    children: [
+      {
+        path: "home",
+        component: () => import("@/views/home/index.vue"),
+        name: "Home",
+        meta: { title: "首页", icon: "dashboard", noCache: true, affix: true },
+      },
+    ],
   },
   {
     path: "/login",
@@ -30,7 +43,8 @@ const routes = [
 
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
-  routes,
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes,
 });
 
 export default router;

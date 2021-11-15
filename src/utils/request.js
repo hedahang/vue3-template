@@ -1,5 +1,6 @@
 import { createVNode } from "vue";
 import axios from "axios";
+import store from "@/store";
 import { Modal, message, notification } from "ant-design-vue";
 import { InfoCircleFilled } from "@ant-design/icons-vue";
 import { getToken } from "@/utils/auth";
@@ -52,6 +53,7 @@ service.interceptors.request.use(
 );
 
 // 响应拦截器
+var isShowMessageBox = false;
 service.interceptors.response.use((res) => {
   // 未设置状态码则默认成功状态
   const code = res.data.code || 200;
@@ -59,6 +61,7 @@ service.interceptors.response.use((res) => {
   // 获取错误信息
   const msg = errorCode[code] || res.data.msg || errorCode["default"];
   if (code === 401) {
+    if (isShowMessageBox) return Promise.reject("error");
     Modal.confirm({
       title: "系统提示",
       content: "登录状态已过期，您可以继续留在该页面，或者重新登录",
@@ -66,10 +69,14 @@ service.interceptors.response.use((res) => {
       okText: "重新登录",
       cancelText: "取消",
       icon: createVNode(InfoCircleFilled),
-      onOk() {
-        this.$store.dispatch("LogOut").then(() => {
-          this.$router.push("/login");
+      onOk: () => {
+        isShowMessageBox = false;
+        store.dispatch("LogOut").then(() => {
+          location.href = "/";
         });
+      },
+      onCancel: () => {
+        isShowMessageBox = false;
       },
     });
   } else if (code === 500) {
