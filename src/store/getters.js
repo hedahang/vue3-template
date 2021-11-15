@@ -8,8 +8,8 @@ const getters = {
   roles: (state) => state.user.roles,
   permissions: (state) => state.user.permissions,
   userinfo: (state) => state.user.userinfo,
-  // permission_routes: (state) => state.permission.routes,
-  // sidebarRouters: (state) => state.permission.sidebarRouters,
-  // refreshTips: (state) => state.common.refreshTips,
+  permission_routes: (state) => state.permission.routes,
+  sidebarRouters: (state) => state.permission.sidebarRouters,
+  refreshTips: (state) => state.common.refreshTips,
 };
 export default getters;

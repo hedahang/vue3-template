@@ -32,7 +32,11 @@ const permission = {
         const rdata = JSON.parse(JSON.stringify(res));
         const sidebarRoutes = filterAsyncRouter(sdata);
         const rewriteRoutes = filterAsyncRouter(rdata, true);
-        rewriteRoutes.push({ path: "*", redirect: "/404", hidden: true });
+        rewriteRoutes.push({
+          path: "/:pathMatch(.*)*",
+          redirect: "/404",
+          hidden: true,
+        });
         commit("SET_ROUTES", rewriteRoutes);
         commit("SET_SIDEBAR_ROUTERS", sidebarRoutes);
         resolve(rewriteRoutes);
@@ -101,8 +105,10 @@ function filterChildren(childrenMap) {
   return children;
 }
 export const loadView = (view) => {
+  console.log(view);
   // 路由懒加载
-  return (resolve) => require([`@/views/${view}`], resolve);
+  return () => import(`@/views/${view}`);
+  // return (resolve) => require([`@/views/${view}`], resolve);
 };
 
 export default permission;
