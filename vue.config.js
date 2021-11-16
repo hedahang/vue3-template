@@ -2,7 +2,7 @@
  * @Author: munachar
  * @Date: 2021-11-11 16:37:11
  * @Last Modified by: munachar
- * @Last Modified time: 2021-11-12 15:28:24
+ * @Last Modified time: 2021-11-16 14:44:51
  */
 const path = require("path");
 // const BundleAnalyzerPlugin =
@@ -28,6 +28,9 @@ module.exports = {
 
   // 生产环境的 source map
   productionSourceMap: false,
+
+  // 是否使用包含运行时编译器的 Vue 构建版本
+  runtimeCompiler: true,
 
   // 是否为 Babel 或 TypeScript 使用 thread-loader。该选项在系统的 CPU 有多于一个内核时自动启用，仅作用于生产构建。
   parallel: require("os").cpus().length > 1,

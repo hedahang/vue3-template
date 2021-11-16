@@ -1,20 +1,38 @@
 <template>
-  <div class="app-wrapper">
+  <div :class="classObj" class="app-wrapper">
     <Sidebar class="sidebar-container" />
     <div :class="{ hasTagsView: true }" class="main-container">
+      <div :class="{ 'fixed-header': true }">
+        <Navbar />
+        <!-- <tags-view v-if="needTagsView" /> -->
+      </div>
       <AppMain />
     </div>
   </div>
 </template>
 <script>
-import { AppMain, Sidebar } from "./components";
+import { computed } from "@vue/reactivity";
+import { AppMain, Sidebar, Navbar } from "./components";
+import { useStore } from "vuex";
 export default {
   name: "Layout",
   components: {
     AppMain,
     Sidebar,
+    Navbar,
   },
-  setup() {},
+  setup() {
+    const store = useStore();
+    const classObj = computed(() => {
+      return {
+        hideSidebar: !store.getters.sidebar.opened,
+        withoutAnimation: store.getters.sidebar.withoutAnimation,
+      };
+    });
+    return {
+      classObj,
+    };
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -42,14 +60,12 @@ export default {
   top: 0;
   right: 0;
   z-index: 9;
-  // width: calc(100% - @sideBarWidth);
-  width: 100%;
+  width: calc(100% - @sideBarWidth);
   transition: width 0.28s;
 }
 
 .hideSidebar .fixed-header {
-  // width: calc(100% - 54px);
-  width: 100%;
+  width: calc(100% - 54px);
 }
 
 .mobile .fixed-header {

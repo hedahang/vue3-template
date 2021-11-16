@@ -1,48 +1,40 @@
 <template>
-  <div v-if="!item.hidden">
-    <template
-      v-if="
-        hasOneShowingChild(item.children, item) &&
-        (!onlyOneChild.children || onlyOneChild.noShowingChildren) &&
-        !item.alwaysShow
-      "
-    >
-      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
-        <a-menu-item :key="resolvePath(onlyOneChild.path)">
-          <template #icon>
-            <svg-icon
-              :icon-class="
-                onlyOneChild.meta.icon || (item.meta && item.meta.icon)
-              "
-            />
-          </template>
-          {{ onlyOneChild.meta.title }}
-        </a-menu-item>
-      </app-link>
-    </template>
-    <a-sub-menu :key="resolvePath(item.path)" v-else>
+  <template
+    v-if="
+      hasOneShowingChild(item.children, item) &&
+      (!onlyOneChild.children || onlyOneChild.noShowingChildren) &&
+      !item.alwaysShow
+    "
+  >
+    <a-menu-item :key="resolvePath(onlyOneChild.path)">
       <template #icon>
-        <svg-icon :icon-class="item.meta && item.meta.icon" />
+        <svg-icon
+          :icon-class="onlyOneChild.meta.icon || (item.meta && item.meta.icon)"
+        />
       </template>
-      <template #title>{{ item.meta && item.meta.title }}</template>
-      <template v-for="child in item.children" :key="child.path">
-        <app-link v-if="child.meta" :to="resolvePath(child.path)">
-          <a-menu-item :key="child.path">{{
-            child.meta && child.meta.title
-          }}</a-menu-item>
-        </app-link>
-      </template>
-    </a-sub-menu>
-  </div>
+      {{ onlyOneChild.meta.title }}
+    </a-menu-item>
+  </template>
+  <a-sub-menu :key="resolvePath(item.path)" data-name="item.path" v-else>
+    <template #icon>
+      <svg-icon :icon-class="item.meta && item.meta.icon" />
+    </template>
+    <template #title>{{ item.meta && item.meta.title }}</template>
+    <sidebar-item
+      v-for="child in item.children"
+      :key="child.path"
+      :item="child"
+      :base-path="resolvePath(child.path)"
+    ></sidebar-item>
+  </a-sub-menu>
 </template>
 <script>
 import path from "path";
 import { isExternal } from "@/utils/validate";
-import AppLink from "./Link";
 
 export default {
   name: "SidebarItem",
-  components: { AppLink },
+  components: {},
   props: {
     item: {
       type: Object,
